@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd91979a-aae7-4898-93e0-881c4d0eddb6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Piplines/piplines.py" beforeDir="false" afterPath="$PROJECT_DIR$/Piplines/piplines.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,6 +180,7 @@
       <workItem from="1718518241841" duration="6244000" />
       <workItem from="1718524576099" duration="124000" />
       <workItem from="1718525178118" duration="1093000" />
+      <workItem from="1718527434195" duration="807000" />
     </task>
     <servers />
   </component>
@@ -210,6 +205,6 @@
     <SUITE FILE_PATH="coverage/FMM_Financial_Modeling_Megatron_$gen_prompts.coverage" NAME="gen_prompts Coverage Results" MODIFIED="1718437958990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Prompts" />
     <SUITE FILE_PATH="coverage/FMM_Financial_Modeling_Megatron_$process_data.coverage" NAME="process_data Coverage Results" MODIFIED="1713495724355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Database" />
     <SUITE FILE_PATH="coverage/FMM_Financial_Modeling_Megatron_$test.coverage" NAME="test Coverage Results" MODIFIED="1718521354257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FMM_Financial_Modeling_Megatron_$piplines.coverage" NAME="piplines Coverage Results" MODIFIED="1718525658877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Piplines" />
+    <SUITE FILE_PATH="coverage/FMM_Financial_Modeling_Megatron_$piplines.coverage" NAME="piplines Coverage Results" MODIFIED="1718528293465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Piplines" />
   </component>
 </project>
