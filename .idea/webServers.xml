@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c7f1e378-76ee-4b2f-84fc-2e4e17225eec" name="liuqi">
+        <fileTransfer accessType="SFTP" host="10.112.166.15" port="22" sshConfigId="a575cf5c-450d-42bd-b41a-a51878a68524" sshConfig="qiliu@10.112.166.15:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="982a573b-5467-4869-8229-20b780ebffe5" name="InternLM_platform">
+        <fileTransfer accessType="SFTP" host="ssh.intern-ai.org.cn" port="38319" sshConfigId="4e93790b-621f-46a1-a356-5d09b964154c" sshConfig="root@ssh.intern-ai.org.cn:38319 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
