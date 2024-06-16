@@ -11,12 +11,12 @@ from Prompts.gen_prompts import normal_prompt
 from langchain_core.output_parsers import StrOutputParser
 
 PGVECTOR_CONNECTION_STRING = PGVector.connection_string_from_db_params(
-    driver=os.environ.get("PGVECTOR_DRIVER", "psycopg2"),
-    host=os.environ.get("PGVECTOR_HOST", "120.46.79.149"),
-    port=int(os.environ.get("PGVECTOR_PORT", "5432")),
-    database=os.environ.get("PGVECTOR_DATABASE", "postgres"),
-    user=os.environ.get("PGVECTOR_USER", "postgres"),
-    password=os.environ.get("PGVECTOR_PASSWORD", "postgres"),
+    driver=os.environ.get("PGVECTOR_DRIVER", ""),
+    host=os.environ.get("PGVECTOR_HOST", ""),
+    port=int(os.environ.get("PGVECTOR_PORT", "")),
+    database=os.environ.get("PGVECTOR_DATABASE", ""),
+    user=os.environ.get("PGVECTOR_USER", ""),
+    password=os.environ.get("PGVECTOR_PASSWORD", ""),
 )
 with open('金融词汇内容.txt', encoding='utf8') as file:
     content = file.readlines()
@@ -41,7 +41,7 @@ if __name__ == '__main__':
         return EmbeddingsFilter(embeddings=embedding, k=n)
 
     compression_retriever = ContextualCompressionRetriever(
-        base_compressor=topK_filter, base_retriever=db.as_retriever()
+        base_compressor=topK_filter(3), base_retriever=db.as_retriever()
     )
 
     combine_docs_chain = create_stuff_documents_chain(llm, prompt=retrieval_qa_chat_prompt)
