@@ -33,9 +33,9 @@ output_parser = StrOutputParser()
 
 def get_db(strategy_input):
     strategy = DistanceStrategy.COSINE
-    if strategy_input == 'l2':
+    if strategy_input == 'EUCLIDEAN':
         strategy = DistanceStrategy.EUCLIDEAN
-    elif strategy_input == 'Inner':
+    elif strategy_input == 'MAX_INNER_PRODUCT':
         strategy = DistanceStrategy.MAX_INNER_PRODUCT
 
     return PGVector(embeddings=embedding,
@@ -70,21 +70,3 @@ def simpleRouter(question):
             flag = False
             break
     return flag
-
-
-def pipline(question,chat_history,model_input, temperature_input,topK_input,strategy_input):
-    if simpleRouter(question):
-
-        return get_normal_chain(model_input, temperature_input).invoke({'input': question, 'chat_history': chat_history})
-        # answer = ''
-        # length = 0
-        # for chunk in get_normal_chain(model_input, temperature_input).stream(
-        #         {'input': question, 'chat_history': chat_history}):
-        #     if chunk is not None:
-        #         yield chunk[length:]
-                # print(chunk[length:], flush=True, end='')
-                # length = len(answer)
-
-    else:
-        return get_RAG_chain(model_input, temperature_input, topK_input, strategy_input).invoke(
-            {'input': question, 'chat_history': chat_history})['answer']
