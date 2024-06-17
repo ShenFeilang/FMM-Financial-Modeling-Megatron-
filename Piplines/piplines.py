@@ -1,5 +1,6 @@
 import os
 from langchain_postgres.vectorstores import PGVector
+from langchain_postgres.vectorstores import DistanceStrategy
 from LLMs.chat_SparkLLM import get_llm
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -22,55 +23,66 @@ with open('金融词汇内容.txt', encoding='utf8') as file:
     content = file.readlines()
     content = [i.strip() for i in content]
 
-if __name__ == '__main__':
+embedding = HuggingFaceEmbeddings(model_name='../acge_text_embedding'
+                                  , show_progress=True
+                                  , model_kwargs={'device': 'cuda'}
+                                  , encode_kwargs={'normalize_embeddings': True})
 
-    llm = get_llm('v3.5', 0.5)
-
-    embedding = HuggingFaceEmbeddings(model_name='../acge_text_embedding'
-                                      , show_progress=True
-                                      , model_kwargs={'device': 'cuda'}
-                                      , encode_kwargs={'normalize_embeddings': True})
-    db = PGVector(
-        embeddings=embedding,
-        collection_name='test',
-        connection=PGVECTOR_CONNECTION_STRING,
-        use_jsonb=True
-    )
-
-    def topK_filter(n):
-        return EmbeddingsFilter(embeddings=embedding, k=n)
-
-    compression_retriever = ContextualCompressionRetriever(
-        base_compressor=topK_filter(3), base_retriever=db.as_retriever()
-    )
-
-    combine_docs_chain = create_stuff_documents_chain(llm, prompt=retrieval_qa_chat_prompt)
-    retrieval_chain = create_retrieval_chain(compression_retriever, combine_docs_chain)
-    output_parser = StrOutputParser()
-    chain = normal_prompt | llm | output_parser
+output_parser = StrOutputParser()
 
 
-    def simpleRouter(question):
-        flag = True
-        for i in content:
-            if i in question:
-                flag = False
-                break
-        return flag
+def get_db(strategy_input):
+    strategy = DistanceStrategy.COSINE
+    if strategy_input == 'l2':
+        strategy = DistanceStrategy.EUCLIDEAN
+    elif strategy_input == 'Inner':
+        strategy = DistanceStrategy.MAX_INNER_PRODUCT
 
-    def pipline(question, chat_history):
-        if simpleRouter(question):
-            answer = ''
-            length = 0
-            for chunk in chain.stream({'input': question, 'chat_history': chat_history}):
-                if chunk is not None:
-                    print(chunk[length:], flush=True, end='')
-                    length = len(answer)
-
-        else:
-            print(retrieval_chain.invoke({'input': question, 'chat_history': chat_history})['answer'])
+    return PGVector(embeddings=embedding,
+                    collection_name='test',
+                    connection=PGVECTOR_CONNECTION_STRING,
+                    use_jsonb=True,
+                    distance_strategy=strategy
+                    )
 
 
-    chat_history = []
+def get_compression_retriever(topK_input, strategy_input):
+    return ContextualCompressionRetriever(base_compressor=EmbeddingsFilter(embeddings=embedding, k=topK_input)
+                                          , base_retriever=get_db(strategy_input).as_retriever())
 
-    pipline('什么是基金定投？', chat_history)
+
+def get_RAG_chain(model_input, temperature_input, topK_input, strategy_input):
+    combine_docs_chain = create_stuff_documents_chain(get_llm(model_input, temperature_input)
+                                                      , prompt=retrieval_qa_chat_prompt)
+    retrieval_chain = create_retrieval_chain(get_compression_retriever(topK_input, strategy_input), combine_docs_chain)
+    return retrieval_chain
+
+
+def get_normal_chain(model_input, temperature_input):
+    chain = normal_prompt | get_llm(model_input, temperature_input) | output_parser
+    return chain
+
+
+def simpleRouter(question):
+    flag = True
+    for i in content:
+        if i in question:
+            flag = False
+            break
+    return flag
+
+
+def pipline(question,chat_history,model_input, temperature_input,topK_input,strategy_input):
+    if simpleRouter(question):
+        # answer = ''
+        # length = 0
+        return get_normal_chain(model_input, temperature_input).invoke({'input': question, 'chat_history': chat_history})
+        # for chunk in get_normal_chain(model_input, temperature_input).stream(
+        #         {'input': question, 'chat_history': chat_history}):
+        #     if chunk is not None:
+        #         print(chunk[length:], flush=True, end='')
+        #         length = len(answer)
+
+    else:
+        return get_RAG_chain(model_input, temperature_input, topK_input, strategy_input).invoke(
+            {'input': question, 'chat_history': chat_history})['answer']
