@@ -74,14 +74,16 @@ def simpleRouter(question):
 
 def pipline(question,chat_history,model_input, temperature_input,topK_input,strategy_input):
     if simpleRouter(question):
+
+        return get_normal_chain(model_input, temperature_input).invoke({'input': question, 'chat_history': chat_history})
         # answer = ''
         # length = 0
-        return get_normal_chain(model_input, temperature_input).invoke({'input': question, 'chat_history': chat_history})
         # for chunk in get_normal_chain(model_input, temperature_input).stream(
         #         {'input': question, 'chat_history': chat_history}):
         #     if chunk is not None:
-        #         print(chunk[length:], flush=True, end='')
-        #         length = len(answer)
+        #         yield chunk[length:]
+                # print(chunk[length:], flush=True, end='')
+                # length = len(answer)
 
     else:
         return get_RAG_chain(model_input, temperature_input, topK_input, strategy_input).invoke(

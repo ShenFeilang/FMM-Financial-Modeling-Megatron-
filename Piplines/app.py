@@ -19,7 +19,7 @@ if __name__ == '__main__':
                 topK_input = gr.Number(label='TopK', value=3, interactive=True)
             with gr.Column('聊天'):
                 chatbot = gr.Chatbot()
-                prompt = gr.Textbox(label='Prompt')
+                prompt = gr.Textbox(label='Prompt',interactive=True)
                 gr.ClearButton(components=[prompt, chatbot], value='Clear Console')
                 prompt.submit(fn=response,
                               inputs=[prompt, chatbot, model_input, temperature_input, topK_input, strategy_input],
